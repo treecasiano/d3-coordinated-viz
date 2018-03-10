@@ -1,0 +1,10 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    <Tree Casiano> -- <Developer> -- <@treecasiano>
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5, Modernizr, Normalize.css, D3
