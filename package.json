@@ -6,7 +6,9 @@
   "directories": {
     "lib": "lib"
   },
-  "dependencies": {},
+  "dependencies": {
+    "d3-queue": "^3.0.7"
+  },
   "devDependencies": {
     "browser-sync": "^2.23.6",
     "html5-boilerplate": "^6.0.1"
