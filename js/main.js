@@ -1,5 +1,5 @@
 //begin script when window loads
-window.onload = setMap();
+window.onload = setMap;
 
 //set up choropleth map
 function setMap(){
@@ -9,9 +9,10 @@ function setMap(){
       .defer(d3.json, "data/oregonCounties.topojson") //load background spatial data
       .await(cb);
 
-  function cb(error, csvData, oregon){
-    console.log(error);
+  function cb(error, csvData, oregonTopojson) {
+    //translate TopoJSON
+    var oregonCounties = topojson.feature(oregonTopojson, oregonTopojson.objects.oregonCounties);
     console.log(csvData);
-    console.log(oregon);
+    console.log(oregonCounties);
   }
 }
