@@ -38,7 +38,7 @@
         height = 800;
 
     //create new svg container for the map
-    var map = d3.select("body")
+    var map = d3.select(".mapContainer")
         .append("svg")
         .attr("class", "map")
         .attr("width", width)

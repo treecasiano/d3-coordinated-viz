@@ -1,5 +1,31 @@
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background: #222222;
+    color: #FDCC8A;
+    font-family: 'Oswald', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+.mainHeader {
+    text-align: center;
+}
+
+.mapContainer {
+    width: auto;
+    margin: auto;
+    overflow: scroll;
+}
+
 .counties {
-    stroke: #e2e2e2;
+    stroke: #77625e;
     stroke-width: 1px;
     stroke-linecap: round;
 }
