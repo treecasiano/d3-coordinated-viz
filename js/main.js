@@ -1,11 +1,33 @@
-//begin script when window loads
+(function(){
+
+//pseudo-global variables
+  var textAttributes = ['County', 'State'];
+  var numericalAttributes = ['CHILDPOVRATE15',
+    'FOODINSEC_13_15',
+    'PCT_DIABETES_ADULTS13',
+    'PCT_LACCESS_BLACK15',
+    'PCT_LACCESS_CHILD15',
+    'PCT_LACCESS_HHNV15',
+    'PCT_LACCESS_HISP15',
+    'PCT_LACCESS_LOWI15',
+    'PCT_LACCESS_MULTIR15',
+    'PCT_LACCESS_NHASIAN15',
+    'PCT_LACCESS_NHNA15',
+    'PCT_LACCESS_NHPI15',
+    'PCT_LACCESS_POP15',
+    'PCT_LACCESS_SENIORS15',
+    'PCT_LACCESS_SNAP15',
+    'PCT_LACCESS_WHITE15',
+    'PCT_OBESE_ADULTS13',
+    'POVRATE15',
+    'VLFOODSEC_13_15'
+  ];
+
+  //initial attribute
+  var expressed = numericalAttributes[0];
+
 window.onload = setMap;
 
-/*a D3 generator is a function that is returned by a D3 generator method and stored in a local variable.
-Any D3 projection method will return a projection generator, which must then be fed into the d3.geo.path() method
-to produce another generator—the path generator.
-Finally, the path generator is accessed within a selection block to draw the spatial data as path strings
-of the d attributes of SVG <path> elements. */
 
 //set up choropleth map
 function setMap() {
@@ -39,19 +61,47 @@ function setMap() {
       .await(cb);
 
   function cb(error, csvData, oregonTopojson) {
-    //translate TopoJSON
+      //translate TopoJSON
     var oregonCounties = topojson.feature(oregonTopojson, oregonTopojson.objects.oregonCounties).features;
+  //join csv data to GeoJSON enumeration units
+    oregonCounties = joinData(oregonCounties, csvData, 'GEO_ID', 'GEO_ID', textAttributes, numericalAttributes);
+    //add enumeration units to the map
+    setCounties(oregonCounties, 'GEO_ID', map, path);
     console.log(csvData);
     console.log(oregonCounties);
+  }
+}
 
-    // add Oregon counties to map
+  function joinData(geojsonFeatures, csvData, geojsonKeyString, csvKeyString, textAttrsArray, numAttrsArray){
+    for (var i = 0; i < csvData.length; i++) {
+      var csvEnumerationUnit = csvData[i];
+      var csvKey = csvEnumerationUnit[csvKeyString];
+
+      //loop through geojson regions to find correct region
+      for (var a = 0; a < geojsonFeatures.length; a++) {
+
+        var geojsonProps = geojsonFeatures[a].properties;
+        var geojsonKey = geojsonProps[csvKeyString];
+
+        //where primary keys match, transfer csv data to geojson properties object
+        if (geojsonKey === csvKey) {
+          textAttrsArray.forEach(function(attr) {geojsonProps[attr] = csvEnumerationUnit[attr];});
+          numAttrsArray.forEach(function(attr) {geojsonProps[attr] = parseFloat(csvEnumerationUnit[attr]);});
+        }
+      }
+    }
+    return geojsonFeatures;
+  }
+
+  function setCounties(countyUnits, primaryKey, map, path) {
     var counties = map.selectAll(".counties")
-        .data(oregonCounties)
+        .data(countyUnits)
         .enter()
         .append("path")
-        .attr("class", function(d){
-          return "counties " + d.properties.GEO_ID;
+        .attr("class", function (d) {
+          return "counties " + d.properties[primaryKey];
         })
         .attr("d", path);
   }
-}
+
+})();
