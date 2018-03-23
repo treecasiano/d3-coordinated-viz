@@ -1,32 +1,83 @@
 (function () {
 
-//pseudo-global variables
   var textAttributes = ['County', 'State'];
-  var numericalAttributes = ['CHILDPOVRATE15',
-    'FOODINSEC_13_15',
-    'PCT_DIABETES_ADULTS13',
-    'PCT_LACCESS_BLACK15',
-    'PCT_LACCESS_CHILD15',
-    'PCT_LACCESS_HHNV15',
-    'PCT_LACCESS_HISP15',
-    'PCT_LACCESS_LOWI15',
-    'PCT_LACCESS_MULTIR15',
-    'PCT_LACCESS_NHASIAN15',
-    'PCT_LACCESS_NHNA15',
-    'PCT_LACCESS_NHPI15',
-    'PCT_LACCESS_POP15',
-    'PCT_LACCESS_SENIORS15',
-    'PCT_LACCESS_SNAP15',
-    'PCT_LACCESS_WHITE15',
-    'PCT_OBESE_ADULTS13',
-    'POVRATE15',
-    'VLFOODSEC_13_15'
+  var numericalAttributeObject = [
+
+    {
+      attrName: 'PCT_LACCESS_POP15',
+      attrDisplayText: 'Population, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_LOWI15',
+      attrDisplayText: 'Low income & low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_HHNV15',
+      attrDisplayText: 'Households, no car & low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_SNAP15',
+      attrDisplayText: 'SNAP households, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_CHILD15',
+      attrDisplayText: 'Children, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_SENIORS15',
+      attrDisplayText: 'Seniors, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_BLACK15',
+      attrDisplayText: 'Black, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_WHITE15',
+      attrDisplayText: 'White, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_HISP15',
+      attrDisplayText: 'Hispanic, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_MULTIR15',
+      attrDisplayText: 'Multiracial, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_NHASIAN15',
+      attrDisplayText: 'Asian, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_NHNA15',
+      attrDisplayText: 'American Indian or Alaska Native, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_NHPI15',
+      attrDisplayText: 'Hawaiian or Pacific Islander, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_SNAP15',
+      attrDisplayText: 'SNAP households, low access to store (%), 2015'
+    },
+    {
+      attrName: 'POVRATE15',
+      attrDisplayText: 'Poverty Rate, 2015'
+    },
+    {
+      attrName: 'PCT_OBESE_ADULTS13',
+      attrDisplayText: 'Adult Obesity Rate, 2013'
+    },
+    {
+      attrName: 'PCT_DIABETES_ADULTS13',
+      attrDisplayText: 'Adult Diabetes Rate, 2013'
+    }
   ];
 
   //initial attribute
-  var expressed = numericalAttributes[0];
+  var expressed = numericalAttributeObject[16].attrName;
+  var expresseddisplayText = numericalAttributeObject[16].attrDisplayText;
 
-  var colorClasses = ['#9DF199','#B3CA66','#BCA34B','#B77E45','#A35E48'];
+  var colorClasses = ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'];
 
   window.onload = setMap;
 
@@ -66,7 +117,7 @@
       var oregonCounties = topojson.feature(oregonTopojson, oregonTopojson.objects.oregonCounties).features;
 
       // /join csv data to GeoJSON enumeration units
-      oregonCounties = joinData(oregonCounties, csvData, 'GEO_ID', 'GEO_ID', textAttributes, numericalAttributes);
+      oregonCounties = joinData(oregonCounties, csvData, 'GEO_ID', 'GEO_ID', textAttributes, numericalAttributeObject);
 
       //create the color scale
       // var colorScale = makeQuintileColorScale(csvData, colorClasses);
@@ -84,7 +135,7 @@
     }
   }
 
-  function joinData(geojsonFeatures, csvData, geojsonKeyString, csvKeyString, textAttrsArray, numAttrsArray) {
+  function joinData(geojsonFeatures, csvData, geojsonKeyString, csvKeyString, textAttrs, numAttrs) {
     for (var i = 0; i < csvData.length; i++) {
       var csvEnumerationUnit = csvData[i];
       var csvKey = csvEnumerationUnit[csvKeyString];
@@ -97,11 +148,11 @@
 
         //where primary keys match, transfer csv data to geojson properties object
         if (geojsonKey === csvKey) {
-          textAttrsArray.forEach(function (attr) {
+          textAttrs.forEach(function (attr) {
             geojsonProps[attr] = csvEnumerationUnit[attr];
           });
-          numAttrsArray.forEach(function (attr) {
-            geojsonProps[attr] = parseFloat(csvEnumerationUnit[attr]);
+          numAttrs.forEach(function (attr) {
+            geojsonProps[attr.attrName] = parseFloat(csvEnumerationUnit[attr.attrName]);
           });
         }
       }
@@ -122,7 +173,6 @@
           return choropleth(d.properties, colorScale);
         });
   }
-
 
 //functions to create color scale generator
   function makeQuintileColorScale(data, colorClasses) {
@@ -265,7 +315,7 @@
         .attr("x", 40)
         .attr("y", 40)
         .attr("class", "chartTitle")
-        .text("" + expressed + " in each county");
+        .text("" + expresseddisplayText);
 
     //create vertical axis generator
     var yAxis = d3.axisLeft()
@@ -283,6 +333,6 @@
         .attr("width", chartInnerWidth)
         .attr("height", chartInnerHeight)
         .attr("transform", translate);
-  };
+  }
 
 })();
