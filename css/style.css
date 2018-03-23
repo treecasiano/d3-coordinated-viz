@@ -6,7 +6,7 @@ body {
 
 body {
     background: #222222;
-    color: #FDCC8A;
+    color: #B3CA66;
     font-family: 'Oswald', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -22,14 +22,45 @@ h1 {
     margin: 10px 0 0 20px;
 }
 
-.chart {
-    background-color: rgba(128,128,128,.2);
-    float: right;
-    margin: 10px 20px 0 0;
-}
-
 .counties {
-    stroke: #77625e;
+    stroke: #81ff75;
     stroke-width: 1px;
     stroke-linecap: round;
+}
+
+.chart {
+    float: right;
+    margin: 7px 20px 0 0;
+}
+
+.chartTitle {
+    font-family: 'Oswald', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    fill: #B3CA66;
+}
+
+.chartBackground {
+    fill: rgba(128,128,128,.2);
+}
+
+.chartFrame {
+    fill: none;
+    stroke: #81ff75;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #81ff75;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: 'Oswald', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    fill: #81ff75;
 }

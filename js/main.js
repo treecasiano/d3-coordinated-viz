@@ -26,7 +26,7 @@
   //initial attribute
   var expressed = numericalAttributes[0];
 
-  var colorClasses = ['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'];
+  var colorClasses = ['#9DF199','#B3CA66','#BCA34B','#B77E45','#A35E48'];
 
   window.onload = setMap;
 
@@ -192,8 +192,8 @@
     return colorScale;
   }
 
-  //function to test for data value and return color
-  function choropleth(props, colorScale){
+  //test for data value and return color
+  function choropleth(props, colorScale) {
     //make sure attribute value is a number
     var val = parseFloat(props[expressed]);
     //if attribute value exists, assign a color; otherwise assign gray
@@ -204,11 +204,17 @@
     };
   }
 
-//function to create coordinated bar chart
+  //create coordinated bar chart
   function setChart(csvData, colorScale){
     //chart frame dimensions
     var chartWidth = window.innerWidth * 0.425,
-        chartHeight = 500;
+        chartHeight = 473,
+        leftPadding = 25,
+        rightPadding = 2,
+        topBottomPadding = 5,
+        chartInnerWidth = chartWidth - leftPadding - rightPadding,
+        chartInnerHeight = chartHeight - topBottomPadding * 2,
+        translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
 
     //create a second svg element to hold the bar chart
     var chart = d3.select(".mainContainer")
@@ -217,34 +223,66 @@
         .attr("height", chartHeight)
         .attr("class", "chart");
 
+    //create a rectangle for chart background fill
+    var chartBackground = chart.append("rect")
+        .attr("class", "chartBackground")
+        .attr("width", chartInnerWidth)
+        .attr("height", chartInnerHeight)
+        .attr("transform", translate);
+
+    //create a scale to size bars proportionally to frame and for axis
     var yScale = d3.scaleLinear()
-        .range([0, chartHeight])
-        .domain([0, 105]);
+        .range([463, 0])
+        .domain([0, 100]);
 
     //set bars for each province
-    var bars = chart.selectAll(".bars")
+    var bars = chart.selectAll(".bar")
         .data(csvData)
         .enter()
         .append("rect")
         .sort(function(a, b){
-          return a[expressed]-b[expressed]
+          return b[expressed]-a[expressed]
         })
         .attr("class", function(d){
-          return "bars " + d.GEO_ID;
+          return "bar " + d.GEO_ID;
         })
-        .attr("width", chartWidth / csvData.length - 1)
+        .attr("width", chartInnerWidth / csvData.length - 1)
         .attr("x", function(d, i){
-          return i * (chartWidth / csvData.length);
+          return i * (chartInnerWidth / csvData.length) + leftPadding;
         })
-        .attr("height", function(d){
-          return yScale(parseFloat(d[expressed]));
+        .attr("height", function(d, i){
+          return 463 - yScale(parseFloat(d[expressed]));
         })
-        .attr("y", function(d){
-          return chartHeight - yScale(parseFloat(d[expressed]));
+        .attr("y", function(d, i){
+          return yScale(parseFloat(d[expressed])) + topBottomPadding;
         })
         .style("fill", function(d){
           return choropleth(d, colorScale);
         });
-  }
+
+    //create a text element for the chart title
+    var chartTitle = chart.append("text")
+        .attr("x", 40)
+        .attr("y", 40)
+        .attr("class", "chartTitle")
+        .text("" + expressed + " in each county");
+
+    //create vertical axis generator
+    var yAxis = d3.axisLeft()
+        .scale(yScale);
+
+    //place axis
+    var axis = chart.append("g")
+        .attr("class", "axis")
+        .attr("transform", translate)
+        .call(yAxis);
+
+    //create frame for chart border
+    var chartFrame = chart.append("rect")
+        .attr("class", "chartFrame")
+        .attr("width", chartInnerWidth)
+        .attr("height", chartInnerHeight)
+        .attr("transform", translate);
+  };
 
 })();
