@@ -34,11 +34,11 @@
   function setMap() {
 
     //map frame dimensions
-    var width = 960,
-        height = 800;
+    var width = window.innerWidth * 0.5,
+        height = 500;
 
     //create new svg container for the map
-    var map = d3.select(".mapContainer")
+    var map = d3.select(".mainContainer")
         .append("svg")
         .attr("class", "map")
         .attr("width", width)
@@ -75,6 +75,10 @@
 
       //add enumeration units to the map
       setCountyEnumerationUnits(oregonCounties, 'GEO_ID', map, path, colorScale);
+
+      //add coordinated visualization to the map
+      setChart(csvData, colorScale);
+
       console.log(csvData);
       console.log(oregonCounties);
     }
@@ -120,7 +124,7 @@
   }
 
 
-  //function to create color scale generator
+//functions to create color scale generator
   function makeQuintileColorScale(data, colorClasses) {
     //create color scale generator
     var colorScale = d3.scaleQuantile()
@@ -199,5 +203,19 @@
       return "#CCC";
     };
   }
+
+//function to create coordinated bar chart
+  function setChart(csvData, colorScale){
+    //chart frame dimensions
+    var chartWidth = window.innerWidth * 0.425,
+        chartHeight = 500;
+
+    //create a second svg element to hold the bar chart
+    var chart = d3.select(".mainContainer")
+        .append("svg")
+        .attr("width", chartWidth)
+        .attr("height", chartHeight)
+        .attr("class", "chart");
+  };
 
 })();

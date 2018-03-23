@@ -18,10 +18,14 @@ h1 {
     text-align: center;
 }
 
-.mapContainer {
-    width: auto;
-    margin: auto;
-    overflow: scroll;
+.map {
+    margin: 10px 0 0 20px;
+}
+
+.chart {
+    background-color: rgba(128,128,128,.2);
+    float: right;
+    margin: 10px 20px 0 0;
 }
 
 .counties {
