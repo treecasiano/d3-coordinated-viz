@@ -1,11 +1,5 @@
 .counties {
-    fill: #3d3d3d;
     stroke: #e2e2e2;
     stroke-width: 1px;
-}
-
-.gratLines {
-    fill: none;
-    stroke: #999;
-    stroke-width: 1px;
+    stroke-linecap: round;
 }
