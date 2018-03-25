@@ -77,7 +77,12 @@
   var expressed = numericalAttributeObject[16].attrName;
   var expressedDisplayText = numericalAttributeObject[16].attrDisplayText;
 
-  var colorClasses = ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'];
+  var colorClasses = [
+      '#d5f9ed',
+    '#94c2ba',
+    '#5a95a0',
+    '#326770',
+    '#21444b'];
 
   //chart frame dimensions
   var chartWidth = window.innerWidth * 0.425,

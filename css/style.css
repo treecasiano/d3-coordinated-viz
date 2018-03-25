@@ -5,13 +5,17 @@ body {
 }
 
 body {
-    background: #0c122c;
-    color: #fffece;
+    background: #0f1f22;
+    color: #d5f9ed;
     font-family: 'Josefin Sans', sans-serif;
 }
 
 h1 {
     font-size: 32px;
+}
+
+a {
+    color: #94c2ba;
 }
 
 .mainHeader {
@@ -23,8 +27,8 @@ h1 {
 }
 
 .counties {
-    stroke: #161e4a;
-    stroke-width: .5px;
+    stroke: #000000;
+    stroke-width: 0.5px;
     stroke-linecap: round;
 }
 
@@ -35,9 +39,9 @@ h1 {
 
 .chartTitle {
     font-family: 'Josefin Sans', sans-serif;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: bold;
-    fill: #47b6c3;
+    fill: #94c2ba;
 }
 
 .chartFrame {
@@ -48,13 +52,13 @@ h1 {
 }
 
 .chartBackground {
-    fill: #0d122c;
+    fill: #0f1f22;
 }
 
 .axis path,
 .axis line {
     fill: none;
-    stroke: #fffece;
+    stroke: #d9ffc4;
     stroke-width: 1px;
     shape-rendering: crispEdges;
 }
@@ -62,31 +66,31 @@ h1 {
 .axis text {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 1.1em;
-    fill: #a3d9b5;
+    fill: #d9ffc4;
 }
 
 .selectBox__container {
     display: block;
     width: 400px;
-    margin: auto;
+    margin-left: 25px;
 }
 
 .dropdown {
-    background: #161e4a;
+    background: #193439;
     border: 1px solid transparent;
-    color: #a3d9b5;
+    color: #94c2ba;
     font-family: 'Josefin Sans', sans-serif;
-    height: 50px;
+    height: 36px;
     margin-bottom: 50px;
 }
 
 .dropdown:focus {
-    color: #fffece;
+    color: #d5f9ed;
     outline: none;
 }
 
 .dropdown:hover {
-    border: 1px solid #273891;
+    border: 1px solid #326770;
 }
 
 .dropdown select {
@@ -95,4 +99,8 @@ h1 {
 
 option {
     font-weight: normal;
+}
+
+.footer {
+    padding-left: 25px;
 }
