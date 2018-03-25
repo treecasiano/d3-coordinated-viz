@@ -75,7 +75,7 @@
 
   //initial attribute
   var expressed = numericalAttributeObject[16].attrName;
-  var expresseddisplayText = numericalAttributeObject[16].attrDisplayText;
+  var expressedDisplayText = numericalAttributeObject[16].attrDisplayText;
 
   var colorClasses = ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'];
 
@@ -302,7 +302,7 @@
         .attr("x", 40)
         .attr("y", 40)
         .attr("class", "chartTitle")
-        .text("" + expresseddisplayText);
+        .text("" + expressedDisplayText);
 
     //create vertical axis generator
     var yAxis = d3.axisLeft()
@@ -349,6 +349,10 @@
   function changeAttribute(attribute, csvData) {
     //change the expressed attribute
     expressed = attribute;
+    var expressedObj = numericalAttributeObject.find(function(obj) {
+      return obj.attrName === attribute;
+    });
+    expressedDisplayText = expressedObj.attrDisplayText;
     //recreate the color scale
     var colorScale = makeNaturalBreaksColorScale(csvData, colorClasses);
 
@@ -383,8 +387,10 @@
         .style("fill", function(d){
           return choropleth(d, colorScale);
         });
-  }
 
+    var chartTitle = d3.select(".chartTitle")
+        .text(expressedDisplayText);
+  }
 })();
 
 
