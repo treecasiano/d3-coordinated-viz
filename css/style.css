@@ -64,3 +64,35 @@ h1 {
     font-size: 1.1em;
     fill: #a3d9b5;
 }
+
+.selectBox__container {
+    display: block;
+    width: 400px;
+    margin: auto;
+}
+
+.dropdown {
+    background: #161e4a;
+    border: 1px solid transparent;
+    color: #a3d9b5;
+    font-family: 'Josefin Sans', sans-serif;
+    height: 50px;
+    margin-bottom: 50px;
+}
+
+.dropdown:focus {
+    color: #fffece;
+    outline: none;
+}
+
+.dropdown:hover {
+    border: 1px solid #273891;
+}
+
+.dropdown select {
+    padding-left: 25px;
+}
+
+option {
+    font-weight: normal;
+}

@@ -79,6 +79,21 @@
 
   var colorClasses = ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'];
 
+  //chart frame dimensions
+  var chartWidth = window.innerWidth * 0.425,
+      chartHeight = 473,
+      leftPadding = 25,
+      rightPadding = 2,
+      topBottomPadding = 5,
+      chartInnerWidth = chartWidth - leftPadding - rightPadding,
+      chartInnerHeight = chartHeight - topBottomPadding * 2,
+      translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
+
+  //create a scale to size bars proportionally to frame and for axis
+  var yScale = d3.scaleLinear()
+      .range([463, 0])
+      .domain([0, 100]);
+
   window.onload = setMap;
 
 //set up choropleth map
@@ -126,12 +141,9 @@
 
       //add enumeration units to the map
       setCountyEnumerationUnits(oregonCounties, 'GEO_ID', map, path, colorScale);
-
       //add coordinated visualization to the map
       setChart(csvData, colorScale);
-
-      console.log(csvData);
-      console.log(oregonCounties);
+      createDropdown(csvData);
     }
   }
 
@@ -255,17 +267,7 @@
   }
 
   //create coordinated bar chart
-  function setChart(csvData, colorScale){
-    //chart frame dimensions
-    var chartWidth = window.innerWidth * 0.425,
-        chartHeight = 473,
-        leftPadding = 25,
-        rightPadding = 2,
-        topBottomPadding = 5,
-        chartInnerWidth = chartWidth - leftPadding - rightPadding,
-        chartInnerHeight = chartHeight - topBottomPadding * 2,
-        translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
-
+  function setChart(csvData, colorScale) {
     //create a second svg element to hold the bar chart
     var chart = d3.select(".mainContainer")
         .append("svg")
@@ -279,11 +281,6 @@
         .attr("width", chartInnerWidth)
         .attr("height", chartInnerHeight)
         .attr("transform", translate);
-
-    //create a scale to size bars proportionally to frame and for axis
-    var yScale = d3.scaleLinear()
-        .range([463, 0])
-        .domain([0, 100]);
 
     //set bars for each province
     var bars = chart.selectAll(".bar")
@@ -335,4 +332,82 @@
         .attr("transform", translate);
   }
 
+  function createDropdown(csvData) {
+    //add select element
+    var dropdown = d3.select(".selectBox__container")
+        .append("select")
+        .attr("class", "dropdown")
+        .on('change', function() {
+          changeAttribute(this.value, csvData);
+        });
+
+    //add initial option
+    var titleOption = dropdown.append("option")
+        .attr("class", "titleOption")
+        .attr("disabled", "true")
+        .text("Select Attribute");
+
+    //add attribute name options
+    var attrOptions = dropdown.selectAll("attrOptions")
+        .data(numericalAttributeObject)
+        .enter()
+        .append("option")
+        .attr("value", function(d){ return d.attrName })
+        .text(function(d){ return d.attrDisplayText });
+  }
+
+  function changeAttribute(attribute, csvData) {
+    //change the expressed attribute
+    expressed = attribute;
+    //recreate the color scale
+    var colorScale = makeNaturalBreaksColorScale(csvData, colorClasses);
+
+    //recolor enumeration units
+    var counties = d3.selectAll(".counties")
+        .style("fill", function(d) {
+          return choropleth(d.properties, colorScale)
+        });
+
+    //re-sort, resize, and recolor bars
+    var bars = d3.selectAll(".bar")
+    //re-sort bars
+        .sort(function(a, b) {
+          return b[expressed] - a[expressed];
+        })
+        .attr("x", function(d, i){
+          return i * (chartInnerWidth / csvData.length) + leftPadding;
+        })
+        //resize bars
+        .attr("height", function(d, i){
+          return 463 - yScale(parseFloat(d[expressed]));
+        })
+        .attr("y", function(d, i){
+          return yScale(parseFloat(d[expressed])) + topBottomPadding;
+        })
+        //recolor bars
+        .style("fill", function(d){
+          return choropleth(d, colorScale);
+        });
+  }
+
+  function updateChart(bars, n, colorScale){
+    //position bars
+    bars.attr("x", function(d, i){
+        return i * (chartInnerWidth / n.length) + leftPadding;
+      })
+      //resize bars
+        .attr("height", function(d, i){
+          return 463 - yScale(parseFloat(d[expressed]));
+        })
+        .attr("y", function(d, i){
+          return yScale(parseFloat(d[expressed])) + topBottomPadding;
+        })
+        //recolor bars
+        .style("fill", function(d){
+          return choropleth(d, colorScale);
+        });
+  }
+
 })();
+
+
