@@ -293,19 +293,9 @@
         .attr("class", function(d){
           return "bar " + d.GEO_ID;
         })
-        .attr("width", chartInnerWidth / csvData.length - 1)
-        .attr("x", function(d, i){
-          return i * (chartInnerWidth / csvData.length) + leftPadding;
-        })
-        .attr("height", function(d, i){
-          return 463 - yScale(parseFloat(d[expressed]));
-        })
-        .attr("y", function(d, i){
-          return yScale(parseFloat(d[expressed])) + topBottomPadding;
-        })
-        .style("fill", function(d){
-          return choropleth(d, colorScale);
-        });
+        .attr("width", chartInnerWidth / csvData.length - 1);
+
+      updateChart(bars, csvData.length, colorScale);
 
     //create a text element for the chart title
     var chartTitle = chart.append("text")
@@ -373,36 +363,23 @@
     //re-sort bars
         .sort(function(a, b) {
           return b[expressed] - a[expressed];
-        })
-        .attr("x", function(d, i){
-          return i * (chartInnerWidth / csvData.length) + leftPadding;
-        })
-        //resize bars
-        .attr("height", function(d, i){
-          return 463 - yScale(parseFloat(d[expressed]));
-        })
-        .attr("y", function(d, i){
-          return yScale(parseFloat(d[expressed])) + topBottomPadding;
-        })
-        //recolor bars
-        .style("fill", function(d){
-          return choropleth(d, colorScale);
         });
+    updateChart(bars, csvData.length, colorScale);
   }
 
   function updateChart(bars, n, colorScale){
     //position bars
     bars.attr("x", function(d, i){
-        return i * (chartInnerWidth / n.length) + leftPadding;
-      })
-      //resize bars
+      return i * (chartInnerWidth / n) + leftPadding;
+    })
+    //size/resize bars
         .attr("height", function(d, i){
           return 463 - yScale(parseFloat(d[expressed]));
         })
         .attr("y", function(d, i){
           return yScale(parseFloat(d[expressed])) + topBottomPadding;
         })
-        //recolor bars
+        //color/recolor bars
         .style("fill", function(d){
           return choropleth(d, colorScale);
         });
