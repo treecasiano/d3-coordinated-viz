@@ -44,7 +44,7 @@ option {
 .chartTitle {
     fill: #94c2ba;
     font-family: 'Josefin Sans', sans-serif;
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
 }
 
@@ -95,7 +95,7 @@ option {
     background-color: #193439;
     border: solid thin #94c2ba;
     color: #d5f9ed;
-    height: 30px;
+    height: 50px;
     min-width: 100px;
     position: absolute;
     padding: 15px 10px;
@@ -115,6 +115,10 @@ option {
 
 .map {
     margin: 10px 0 0 20px;
+}
+
+.labelName {
+    font-size: 20px;
 }
 
 .selectBox__container {

@@ -78,11 +78,11 @@
   var expressedDisplayText = numericalAttributeObject[16].attrDisplayText;
 
   var colorClasses = [
-      '#d5f9ed',
-    '#94c2ba',
-    '#5a95a0',
-    '#326770',
-    '#21444b'];
+      '#cdf0e4',
+      '#94c2ba',
+      '#5a95a0',
+      '#326770',
+      '#21444b'];
 
   //chart frame dimensions
   var chartWidth = window.innerWidth * 0.425,
@@ -430,9 +430,9 @@
   function highlight(props, attr) {
     //change stroke
     var selected = d3.selectAll(".id" + props[attr])
-        .style("stroke", "#ffff33")
-        .style("stroke-width", 5);
-    setLabel(props, attr);
+        .style("stroke", "#ffe093")
+        .style("stroke-width", 3);
+    setLabel(props, attr, 'County');
   }
 
   function dehighlight(props, primaryKey) {
@@ -458,10 +458,10 @@
     }
   }
 
-  function setLabel(props, primaryKey, attrName){
+  function setLabel(props, primaryKey, locationName){
     //label content
     var labelAttribute = "<h1>" + props[expressed] +
-        "%</h1><strong>" + expressed + "</strong>";
+        "%</h1><strong>" + expressedDisplayText + "</strong>";
 
     //create info label div
     var infoLabel = d3.select("body")
@@ -472,7 +472,7 @@
 
     var counties = infoLabel.append("div")
         .attr("class", "labelName")
-        .html(props[attrName]);
+        .html(props[locationName] + ' County');
   }
 
   function moveLabel(){
