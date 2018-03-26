@@ -104,3 +104,21 @@ option {
 .footer {
     padding-left: 25px;
 }
+
+.infoLabel {
+    position: absolute;
+    height: 50px;
+    min-width: 100px;
+    color: #d5f9ed;
+    background-color: #193439;
+    border: solid thin #94c2ba;
+    padding: 5px 10px;
+    top: -75px;
+}
+
+.infoLabel h1 {
+    display: inline-block;
+    line-height: 1em;
+    margin: 0 20px 0 0;
+    padding: 0;
+}

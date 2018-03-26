@@ -193,6 +193,9 @@
         })
         .on("mouseout", function(d){
           dehighlight(d.properties, primaryKey);
+        })
+        .on("mousemove", function(){
+          moveLabel();
         });
 
     var desc = counties.append("desc")
@@ -312,7 +315,8 @@
         })
         .on("mouseout", function(d){
           dehighlight(d, primaryKey);
-        });
+        })
+        .on("mousemove", moveLabel);
 
     var desc = bars.append("desc")
         .text('{"stroke": "none", "stroke-width": "0px"}');
@@ -426,8 +430,9 @@
   function highlight(props, attr) {
     //change stroke
     var selected = d3.selectAll(".id" + props[attr])
-        .style("stroke", "yellowgreen")
+        .style("stroke", "#ffff33")
         .style("stroke-width", 5);
+    setLabel(props, attr);
   }
 
   function dehighlight(props, primaryKey) {
@@ -438,6 +443,9 @@
         .style("stroke-width", function(){
           return getStyle(this, "stroke-width")
         });
+
+    d3.select(".infoLabel")
+        .remove();
 
     function getStyle(element, styleName) {
       var styleText = d3.select(element)
@@ -450,6 +458,45 @@
     }
   }
 
+  function setLabel(props, primaryKey, attrName){
+    //label content
+    var labelAttribute = "<h1>" + props[expressed] +
+        "%</h1><strong>" + expressed + "</strong>";
+
+    //create info label div
+    var infoLabel = d3.select("body")
+        .append("div")
+        .attr("class", "infoLabel")
+        .attr("id", props[primaryKey] + "_label")
+        .html(labelAttribute);
+
+    var counties = infoLabel.append("div")
+        .attr("class", "labelName")
+        .html(props[attrName]);
+  }
+
+  function moveLabel(){
+    //get width of label
+    var labelWidth = d3.select(".infoLabel")
+        .node()
+        .getBoundingClientRect()
+        .width;
+
+    //use coordinates of mousemove event to set label coordinates
+    var x1 = d3.event.clientX + 10,
+        y1 = d3.event.clientY - 75,
+        x2 = d3.event.clientX - labelWidth - 10,
+        y2 = d3.event.clientY + 25;
+
+    //horizontal label coordinate, testing for overflow
+    var x = d3.event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1;
+    //vertical label coordinate, testing for overflow
+    var y = d3.event.clientY < 75 ? y2 : y1;
+
+    d3.select(".infoLabel")
+        .style("left", x + "px")
+        .style("top", y + "px");
+  }
 
 
 })();
