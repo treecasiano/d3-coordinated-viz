@@ -27,7 +27,7 @@ a {
 }
 
 .counties {
-    stroke: #000000;
+    stroke: #fff;
     stroke-width: 0.5px;
     stroke-linecap: round;
 }

@@ -147,7 +147,7 @@
       //add enumeration units to the map
       setCountyEnumerationUnits(oregonCounties, 'GEO_ID', map, path, colorScale);
       //add coordinated visualization to the map
-      setChart(csvData, colorScale);
+      setChart(csvData, 'GEO_ID', colorScale);
       createDropdown(csvData);
     }
   }
@@ -183,12 +183,20 @@
         .enter()
         .append("path")
         .attr("class", function (d) {
-          return "counties " + d.properties[primaryKey];
+          return "counties " + 'id'+ d.properties[primaryKey];
         })
         .attr("d", path)
         .style("fill", function(d) {
           return choropleth(d.properties, colorScale);
+        }).on("mouseover", function(d) {
+          highlight(d.properties, primaryKey);
+        })
+        .on("mouseout", function(d){
+          dehighlight(d.properties, primaryKey);
         });
+
+    var desc = counties.append("desc")
+        .text('{"stroke": "#fff", "stroke-width": "0.5px"}');
   }
 
 //functions to create color scale generator
@@ -264,15 +272,15 @@
     //make sure attribute value is a number
     var val = parseFloat(props[expressed]);
     //if attribute value exists, assign a color; otherwise assign gray
-    if (typeof val === 'number' && !isNaN(val)){
+    if (typeof val === 'number' && !isNaN(val)) {
       return colorScale(val);
     } else {
       return "#CCC";
-    };
+    }
   }
 
   //create coordinated bar chart
-  function setChart(csvData, colorScale) {
+  function setChart(csvData, primaryKey, colorScale) {
     //create a second svg element to hold the bar chart
     var chart = d3.select(".mainContainer")
         .append("svg")
@@ -296,9 +304,18 @@
           return b[expressed]-a[expressed]
         })
         .attr("class", function(d){
-          return "bar " + d.GEO_ID;
+          return "bar " + 'id' + d[primaryKey];
         })
-        .attr("width", chartInnerWidth / csvData.length - 1);
+        .attr("width", chartInnerWidth / csvData.length - 1)
+        .on("mouseover", function(d) {
+            highlight(d, primaryKey);
+        })
+        .on("mouseout", function(d){
+          dehighlight(d, primaryKey);
+        });
+
+    var desc = bars.append("desc")
+        .text('{"stroke": "none", "stroke-width": "0px"}');
 
       updateChart(bars, csvData.length, colorScale);
 
@@ -384,7 +401,7 @@
     updateChart(bars, csvData.length, colorScale);
   }
 
-  function updateChart(bars, n, colorScale){
+  function updateChart(bars, n, colorScale) {
     //position bars
     bars.attr("x", function(d, i){
       return i * (chartInnerWidth / n) + leftPadding;
@@ -404,6 +421,37 @@
     var chartTitle = d3.select(".chartTitle")
         .text(expressedDisplayText);
   }
+
+  //function to highlight enumeration units and bars
+  function highlight(props, attr) {
+    //change stroke
+    var selected = d3.selectAll(".id" + props[attr])
+        .style("stroke", "yellowgreen")
+        .style("stroke-width", 5);
+  }
+
+  function dehighlight(props, primaryKey) {
+    var selected = d3.selectAll(".id" + props[primaryKey])
+        .style("stroke", function(){
+          return getStyle(this, "stroke")
+        })
+        .style("stroke-width", function(){
+          return getStyle(this, "stroke-width")
+        });
+
+    function getStyle(element, styleName) {
+      var styleText = d3.select(element)
+          .select("desc")
+          .text();
+
+      var styleObject = JSON.parse(styleText);
+
+      return styleObject[styleName];
+    }
+  }
+
+
+
 })();
 
 
