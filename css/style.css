@@ -18,41 +18,8 @@ a {
     color: #94c2ba;
 }
 
-.mainHeader {
-    text-align: center;
-}
-
-.map {
-    margin: 10px 0 0 20px;
-}
-
-.counties {
-    stroke: #fff;
-    stroke-width: 0.5px;
-    stroke-linecap: round;
-}
-
-.chart {
-    float: right;
-    margin: 7px 20px 0 0;
-}
-
-.chartTitle {
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 1.2em;
-    font-weight: bold;
-    fill: #94c2ba;
-}
-
-.chartFrame {
-    fill: none;
-    stroke: none;
-    stroke-width: 1px;
-    shape-rendering: crispEdges;
-}
-
-.chartBackground {
-    fill: #0f1f22;
+option {
+    font-weight: normal;
 }
 
 .axis path,
@@ -69,10 +36,33 @@ a {
     fill: #d9ffc4;
 }
 
-.selectBox__container {
-    display: block;
-    width: 400px;
-    margin-left: 25px;
+.chart {
+    float: right;
+    margin: 7px 20px 0 0;
+}
+
+.chartTitle {
+    fill: #94c2ba;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.chartFrame {
+    fill: none;
+    stroke: none;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.chartBackground {
+    fill: #0f1f22;
+}
+
+.counties {
+    stroke: #fff;
+    stroke-width: 0.5px;
+    stroke-linecap: round;
 }
 
 .dropdown {
@@ -97,22 +87,18 @@ a {
     padding-left: 25px;
 }
 
-option {
-    font-weight: normal;
-}
-
 .footer {
     padding-left: 25px;
 }
 
 .infoLabel {
-    position: absolute;
-    height: 50px;
-    min-width: 100px;
-    color: #d5f9ed;
     background-color: #193439;
     border: solid thin #94c2ba;
-    padding: 5px 10px;
+    color: #d5f9ed;
+    height: 30px;
+    min-width: 100px;
+    position: absolute;
+    padding: 15px 10px;
     top: -75px;
 }
 
@@ -121,4 +107,18 @@ option {
     line-height: 1em;
     margin: 0 20px 0 0;
     padding: 0;
+}
+
+.mainHeader {
+    text-align: center;
+}
+
+.map {
+    margin: 10px 0 0 20px;
+}
+
+.selectBox__container {
+    display: block;
+    margin-left: 25px;
+    width: 400px;
 }
