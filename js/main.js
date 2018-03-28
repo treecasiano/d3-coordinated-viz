@@ -84,6 +84,10 @@
       '#326770',
       '#21444b'];
 
+  // options are quintile, equalArea, naturalBreaks
+  // default is naturalBreaks
+  var classification = 'naturalBreaks';
+
   //chart frame dimensions
   var chartWidth = window.innerWidth * 0.425,
       chartHeight = 473,
@@ -140,15 +144,32 @@
       oregonCounties = joinData(oregonCounties, csvData, 'GEO_ID', 'GEO_ID', textAttributes, numericalAttributeObject);
 
       //create the color scale
-      // var colorScale = makeQuintileColorScale(csvData, colorClasses);
-      // var colorScale = makeEqualIntervalColorScale(csvData, colorClasses);
-      var colorScale = makeNaturalBreaksColorScale(csvData, colorClasses);
+      var colorScale = setColorScale(csvData, colorClasses, classification);
 
       //add enumeration units to the map
       setCountyEnumerationUnits(oregonCounties, 'GEO_ID', map, path, colorScale);
       //add coordinated visualization to the map
       setChart(csvData, 'GEO_ID', colorScale);
       createDropdown(csvData);
+
+      // radio button event listeners
+      var radioButtons = document.getElementsByName("classification");
+      for(var i=0; i < radioButtons.length; i++){
+        radioButtons[i].addEventListener('click', function() {
+          classification = this.value;
+          var bars = d3.selectAll(".bar");
+          // reset color scale
+          var colorScale = setColorScale(csvData, colorClasses, classification);
+          updateChart(bars, csvData.length -1, colorScale);
+          //recolor enumeration units
+          var counties = d3.selectAll(".counties")
+              .transition()
+              .duration(1000)
+              .style("fill", function(d) {
+                return choropleth(d.properties, colorScale)
+              });
+        }, false);
+      }
     }
   }
 
@@ -203,6 +224,19 @@
   }
 
 //functions to create color scale generator
+  // make color scale
+  function setColorScale(data, colorClasses, classificationScheme) {
+    if (classificationScheme === 'quintile') {
+      return makeQuintileColorScale(data, colorClasses);
+    } else if (classificationScheme === 'equalArea') {
+      return makeEqualIntervalColorScale(data, colorClasses)
+    } else if (classificationScheme === 'naturalBreaks') {
+      return makeNaturalBreaksColorScale(data, colorClasses)
+    } else {
+        console.log("Error with the value of the classification scheme.");
+    }
+  }
+
   function makeQuintileColorScale(data, colorClasses) {
     //create color scale generator
     var colorScale = d3.scaleQuantile()
@@ -380,7 +414,7 @@
     });
     expressedDisplayText = expressedObj.attrDisplayText;
     //recreate the color scale
-    var colorScale = makeNaturalBreaksColorScale(csvData, colorClasses);
+    var colorScale = setColorScale(csvData, colorClasses, classification);
 
     //recolor enumeration units
     var counties = d3.selectAll(".counties")
@@ -458,7 +492,7 @@
     }
   }
 
-  function setLabel(props, primaryKey, locationName){
+  function setLabel(props, primaryKey, locationName) {
     //label content
     var labelAttribute = "<h1>" + props[expressed] +
         "%</h1><strong>" + expressedDisplayText + "</strong>";
@@ -475,7 +509,7 @@
         .html(props[locationName] + ' County');
   }
 
-  function moveLabel(){
+  function moveLabel() {
     //get width of label
     var labelWidth = d3.select(".infoLabel")
         .node()
@@ -497,7 +531,6 @@
         .style("left", x + "px")
         .style("top", y + "px");
   }
-
 
 })();
 
