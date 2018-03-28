@@ -403,7 +403,8 @@
         .enter()
         .append("option")
         .attr("value", function(d){ return d.attrName })
-        .text(function(d){ return d.attrDisplayText });
+        .text(function(d){ return d.attrDisplayText })
+        .property("selected", function(d) { return d.attrName === expressed; });
   }
 
   function changeAttribute(attribute, csvData) {
