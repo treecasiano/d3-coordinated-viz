@@ -7,7 +7,7 @@ body {
 body {
     background: #ffffff;
     color: #193439;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
 }
 
 h1 {
@@ -31,7 +31,7 @@ option {
 }
 
 .axis text {
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
     font-size: 1.1em;
     fill: #21444b;
 }
@@ -43,7 +43,7 @@ option {
 
 .chartTitle {
     fill: #21444b;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
     font-size: 1em;
     font-weight: bold;
 }
@@ -69,7 +69,7 @@ option {
     background: #ffffff;
     border: 1px solid #21444b;
     color: #21444b;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
     height: 36px;
     margin-bottom: 50px;
 }
@@ -96,7 +96,7 @@ option {
     background-color: #ffffff;
     border: solid thin #21444b;
     color: #21444b;
-    height: 50px;
+    min-height: 50px;
     min-width: 100px;
     position: absolute;
     padding: 15px 10px;
@@ -112,7 +112,7 @@ option {
 }
 
 .mainHeader {
-    text-align: center;
+    padding-left: 25px;
 }
 
 .map {
@@ -127,4 +127,9 @@ option {
     display: block;
     margin-left: 25px;
     width: 400px;
+}
+
+input[type=radio] {
+    margin-left: 5px;
+    margin-right: 3px;
 }
