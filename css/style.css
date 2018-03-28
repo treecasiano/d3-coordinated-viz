@@ -18,6 +18,10 @@ a {
     color: #8ba39c;
 }
 
+a:hover {
+    color: #967713;
+}
+
 option {
     font-weight: normal;
 }
@@ -44,7 +48,7 @@ option {
 .chartTitle {
     fill: #21444b;
     font-family: 'Yanone Kaffeesatz', sans-serif;
-    font-size: 1em;
+    font-size: 1.5em;
     font-weight: bold;
 }
 
@@ -82,6 +86,7 @@ option {
 
 .dropdown:hover {
     border: 1px solid #448d99;
+    color: #967713;
 }
 
 .dropdown select {
@@ -125,11 +130,18 @@ option {
 
 .selectBox__container {
     display: block;
+    height: 50px;
     margin-left: 25px;
     width: 400px;
 }
 
 input[type=radio] {
+    cursor: pointer;
     margin-left: 5px;
     margin-right: 3px;
+}
+
+label:hover {
+    color: #967713;
+    cursor: pointer;
 }
