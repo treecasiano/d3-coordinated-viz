@@ -56,10 +56,6 @@
       attrDisplayText: 'Hawaiian or Pacific Islander, low access to store (%), 2015'
     },
     {
-      attrName: 'PCT_LACCESS_SNAP15',
-      attrDisplayText: 'SNAP households, low access to store (%), 2015'
-    },
-    {
       attrName: 'POVRATE15',
       attrDisplayText: 'Poverty Rate, 2015'
     },
@@ -74,8 +70,8 @@
   ];
 
   //initial attribute
-  var expressed = numericalAttributeObject[16].attrName;
-  var expressedDisplayText = numericalAttributeObject[16].attrDisplayText;
+  var expressed = numericalAttributeObject[15].attrName;
+  var expressedDisplayText = numericalAttributeObject[15].attrDisplayText;
 
   var colorClasses = [
       '#cdf0e4',
