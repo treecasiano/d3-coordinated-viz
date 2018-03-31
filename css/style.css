@@ -26,6 +26,11 @@ option {
     font-weight: normal;
 }
 
+label:hover {
+    color: #967713;
+    cursor: pointer;
+}
+
 .axis path,
 .axis line {
     fill: none;
@@ -135,13 +140,20 @@ option {
     width: 400px;
 }
 
+.radioBtns {
+    float: right; 
+    margin-right: 25px;
+}
+
 input[type=radio] {
     cursor: pointer;
     margin-left: 5px;
     margin-right: 3px;
 }
 
-label:hover {
-    color: #967713;
-    cursor: pointer;
+
+/* utility classes */
+.no-wrap {
+    float: right; 
+    margin-right: 25px;
 }
