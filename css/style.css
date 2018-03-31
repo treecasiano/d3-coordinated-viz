@@ -150,10 +150,3 @@ input[type=radio] {
     margin-left: 5px;
     margin-right: 3px;
 }
-
-
-/* utility classes */
-.no-wrap {
-    float: right; 
-    margin-right: 25px;
-}
