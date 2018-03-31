@@ -136,7 +136,6 @@ label:hover {
 .selectBox__container {
     display: block;
     height: 50px;
-    margin-left: 25px;
     width: 400px;
 }
 
