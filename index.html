@@ -17,24 +17,28 @@
         <![endif]-->
         <header class="mainHeader">
             <h1>Food Environment Indicators in Oregon Counties</h1>
+            <div id="introduction" class="introduction">
+                <div class="introContent">High rates of diabetes and obesity may indicate a community is struggling to access healthy food. <br>
+                Poverty, access to grocery stores, and other environmental and demographic factors that correlate with food insecurity are represented in the map below. </p>
+            </div>
         </header>
+        <form class="radioBtns">
+            <span>Select a different attribute:</span>
+            <div class="selectBox__container"></div>
+            <span>Classification method:  &nbsp;</span>
+            <input type="radio" id="classificationChoice1"
+                   name="classification" value="quintile" checked>
+            <label for="classificationChoice1">Quintile &nbsp;</label>
+            <input type="radio" id="classificationChoice2"
+                   name="classification" value="equalArea">
+            <label for="classificationChoice2">Equal Area &nbsp;</label>
+            <input type="radio" id="classificationChoice3"
+                   name="classification" value="naturalBreaks">
+            <label for="classificationChoice3">Natural Breaks &nbsp;</label>
+        </form>
         <main class="mainContainer">
         </main>
         <div class="footer">
-            <form class="radioBtns">
-                <span>Select a different attribute:</span>
-                <div class="selectBox__container"></div>
-                <span>Classification method:  &nbsp;</span>
-                <input type="radio" id="classificationChoice1"
-                       name="classification" value="quintile" checked>
-                <label for="classificationChoice1">Quintile &nbsp;</label>
-                <input type="radio" id="classificationChoice2"
-                       name="classification" value="equalArea">
-                <label for="classificationChoice2">Equal Area &nbsp;</label>
-                <input type="radio" id="classificationChoice3"
-                       name="classification" value="naturalBreaks">
-                <label for="classificationChoice3">Natural Breaks &nbsp;</label>
-            </form>
             <p><strong>Data Source: </strong>Economic Research Service (ERS), U.S. Department of Agriculture (USDA).
                 <br> Food Environment Atlas.
                 <a href="https://www.ers.usda.gov/data-products/food-environment-atlas/">
@@ -45,7 +49,6 @@
         <script src="//d3js.org/d3.v4.js"></script>
         <script src="js/vendor/topojson.min.js"></script>
         <script src='https://unpkg.com/simple-statistics@5.2.0/dist/simple-statistics.js'></script>
-        <script src="js/meta.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>

@@ -1,17 +1,24 @@
 html,
 body {
-    margin: 0;
     height: 100%;
+    margin: 0;
 }
 
 body {
     background: #ffffff;
     color: #193439;
     font-family: 'Yanone Kaffeesatz', sans-serif;
+    padding: 25px 10px;
 }
 
-h1 {
+.mainHeader h1 {
     font-size: 32px;
+    line-height: .6;
+}
+
+.introduction {
+    font-size: 20px;
+    margin: 0;
 }
 
 a {
@@ -99,6 +106,7 @@ label:hover {
 }
 
 .footer {
+    margin-top: -25px;
     padding-left: 25px;
 }
 
@@ -108,10 +116,10 @@ label:hover {
     color: #21444b;
     min-height: 50px;
     min-width: 100px;
+    opacity: .9;
     position: absolute;
     padding: 15px 10px;
     top: -75px;
-    opacity: .9;
 }
 
 .infoLabel h1 {
@@ -123,6 +131,7 @@ label:hover {
 
 .mainHeader {
     padding-left: 25px;
+    margin: 0;
 }
 
 .map {
@@ -140,8 +149,7 @@ label:hover {
 }
 
 .radioBtns {
-    float: right; 
-    margin-right: 25px;
+    margin-left: 25px;
 }
 
 input[type=radio] {
