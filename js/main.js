@@ -99,6 +99,10 @@
       .range([463, 0])
       .domain([0, 100]);
 
+  var radius = d3.scaleSqrt()
+    .domain([0, 100])
+    .range([0, 40]);
+
   window.onload = setMap;
 
 //set up choropleth map
@@ -144,6 +148,7 @@
 
       //add enumeration units to the map
       setCountyEnumerationUnits(oregonCounties, 'GEO_ID', map, path, colorScale);
+      setPropSymbols(oregonCounties, map, path);
       //add coordinated visualization to the map
       setChart(csvData, 'GEO_ID', colorScale);
       createDropdown(csvData);
@@ -418,22 +423,30 @@
         .transition()
         .duration(1000)
         .style("fill", function(d) {
-          return choropleth(d.properties, colorScale)
+          return choropleth(d.properties, colorScale);
         });
 
     //re-sort, resize, and recolor bars
     var bars = d3.selectAll(".bar")
-    //re-sort bars
         .sort(function(a, b) {
           return b[expressed] - a[expressed];
         })
         .transition()
         .delay(function(d, i){
-          return i * 20
+          return i * 20;
         })
         .duration(500);
+    
+    // resize prop symbols    
+    var propSymbols = d3.selectAll("circle")
+        .transition()
+        .duration(1000)
+        .attr("r", function(d) { 
+          return radius(d.properties[expressed]); 
+        });
 
     updateChart(bars, csvData.length, colorScale);
+  
   }
 
   function updateChart(bars, n, colorScale) {
@@ -529,6 +542,29 @@
         .style("top", y + "px");
   }
 
+  function setPropSymbols(polygonFeatureData, map, path) {    
+    map.append("g")
+      .attr("class", "bubble")
+      .selectAll("circle")
+      .data(polygonFeatureData)
+      .enter()
+      .append("circle")
+      .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
+      .attr("r", function(d) { 
+        return radius(d.properties[expressed]); });
+  }
+
+  var checkBox = document.getElementById("toggle-prop-symbols");
+  checkBox.addEventListener('click', function() {
+    if (this.checked) {
+      d3.selectAll('circle')
+      .attr("display", "inline-block");
+    } else {
+      d3.selectAll('circle')
+      .attr("display", "none");
+    }    
+  });
+  
 })();
 
 
