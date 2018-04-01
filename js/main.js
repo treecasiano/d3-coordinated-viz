@@ -2,7 +2,6 @@
 
   var textAttributes = ['County', 'State'];
   var numericalAttributeObject = [
-
     {
       attrName: 'PCT_LACCESS_POP15',
       attrDisplayText: 'Population, low access to store (%), 2015'
@@ -16,46 +15,6 @@
       attrDisplayText: 'Households, no car & low access to store (%), 2015'
     },
     {
-      attrName: 'PCT_LACCESS_SNAP15',
-      attrDisplayText: 'SNAP households, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_CHILD15',
-      attrDisplayText: 'Children, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_SENIORS15',
-      attrDisplayText: 'Seniors, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_BLACK15',
-      attrDisplayText: 'Black, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_WHITE15',
-      attrDisplayText: 'White, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_HISP15',
-      attrDisplayText: 'Hispanic, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_MULTIR15',
-      attrDisplayText: 'Multiracial, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_NHASIAN15',
-      attrDisplayText: 'Asian, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_NHNA15',
-      attrDisplayText: 'American Indian or Alaska Native, low access to store (%), 2015'
-    },
-    {
-      attrName: 'PCT_LACCESS_NHPI15',
-      attrDisplayText: 'Hawaiian or Pacific Islander, low access to store (%), 2015'
-    },
-    {
       attrName: 'POVRATE15',
       attrDisplayText: 'Poverty Rate, 2015'
     },
@@ -66,12 +25,52 @@
     {
       attrName: 'PCT_DIABETES_ADULTS13',
       attrDisplayText: 'Adult Diabetes Rate, 2013'
-    }
+    },
+    // {
+    //   attrName: 'PCT_LACCESS_SNAP15',
+    //   attrDisplayText: 'SNAP households, low access to store (%), 2015'
+    // },
+    {
+      attrName: 'PCT_LACCESS_CHILD15',
+      attrDisplayText: 'Children, low access to store (%), 2015'
+    },
+    {
+      attrName: 'PCT_LACCESS_SENIORS15',
+      attrDisplayText: 'Seniors, low access to store (%), 2015'
+    },
+    // {
+    //   attrName: 'PCT_LACCESS_BLACK15',
+    //   attrDisplayText: 'Black, low access to store (%), 2015'
+    // },
+    // {
+    //   attrName: 'PCT_LACCESS_WHITE15',
+    //   attrDisplayText: 'White, low access to store (%), 2015'
+    // },
+    // {
+    //   attrName: 'PCT_LACCESS_HISP15',
+    //   attrDisplayText: 'Hispanic, low access to store (%), 2015'
+    // },
+    // {
+    //   attrName: 'PCT_LACCESS_MULTIR15',
+    //   attrDisplayText: 'Multiracial, low access to store (%), 2015'
+    // },
+    // {
+    //   attrName: 'PCT_LACCESS_NHASIAN15',
+    //   attrDisplayText: 'Asian, low access to store (%), 2015'
+    // },
+    // {
+    //   attrName: 'PCT_LACCESS_NHNA15',
+    //   attrDisplayText: 'American Indian or Alaska Native, low access to store (%), 2015'
+    // },
+    // {
+    //   attrName: 'PCT_LACCESS_NHPI15',
+    //   attrDisplayText: 'Hawaiian or Pacific Islander, low access to store (%), 2015'
+    // }
   ];
 
   //initial attribute
-  var expressed = numericalAttributeObject[15].attrName;
-  var expressedDisplayText = numericalAttributeObject[15].attrDisplayText;
+  var expressed = numericalAttributeObject[0].attrName;
+  var expressedDisplayText = numericalAttributeObject[0].attrDisplayText;
 
   var colorClasses = [
       '#cdf0e4',
@@ -115,7 +114,7 @@
         .attr("width", width)
         .attr("height", height);
 
-    //create state plane projection centered on Oregon
+    //create projection centered on Oregon
     var projection = d3.geoAlbers()
         .center([-120.55, 43.80])
         .rotate([0, 0, 0])
@@ -133,6 +132,7 @@
         .await(cb);
 
     function cb(error, csvData, oregonTopojson) {
+      
       //translate TopoJSON
       var oregonCounties = topojson.feature(oregonTopojson, oregonTopojson.objects.oregonCounties).features;
 
@@ -162,7 +162,7 @@
               .transition()
               .duration(1000)
               .style("fill", function(d) {
-                return choropleth(d.properties, colorScale)
+                return choropleth(d.properties, colorScale);
               });
         }, false);
       }
@@ -207,6 +207,7 @@
           return choropleth(d.properties, colorScale);
         }).on("mouseover", function(d) {
           highlight(d.properties, primaryKey);
+          setRadarChart(d.properties);
         })
         .on("mouseout", function(d){
           dehighlight(d.properties, primaryKey);
@@ -216,18 +217,17 @@
         });
 
     var desc = counties.append("desc")
-        .text('{"stroke": "#fff", "stroke-width": "0.5px"}');
+        .text('{"stroke": "#fff", "stroke-width": "0.5px"}');   
   }
 
 //functions to create color scale generator
-  // make color scale
   function setColorScale(data, colorClasses, classificationScheme) {
     if (classificationScheme === 'quintile') {
       return makeQuintileColorScale(data, colorClasses);
     } else if (classificationScheme === 'equalArea') {
-      return makeEqualIntervalColorScale(data, colorClasses)
+      return makeEqualIntervalColorScale(data, colorClasses);
     } else if (classificationScheme === 'naturalBreaks') {
-      return makeNaturalBreaksColorScale(data, colorClasses)
+      return makeNaturalBreaksColorScale(data, colorClasses);
     } else {
         console.log("Error with the value of the classification scheme.");
     }
@@ -311,7 +311,7 @@
       return "#CCC";
     }
   }
-
+  
   //create coordinated bar chart
   function setChart(csvData, primaryKey, colorScale) {
     //create a second svg element to hold the bar chart
@@ -334,7 +334,7 @@
         .enter()
         .append("rect")
         .sort(function(a, b){
-          return b[expressed]-a[expressed]
+          return b[expressed]-a[expressed];
         })
         .attr("class", function(d){
           return "bar " + 'id' + d[primaryKey];
@@ -351,11 +351,11 @@
     var desc = bars.append("desc")
         .text('{"stroke": "none", "stroke-width": "0px"}');
 
-      updateChart(bars, csvData.length, colorScale);
+    updateChart(bars, csvData.length, colorScale);
 
     //create a text element for the chart title
     var chartTitle = chart.append("text")
-        .attr("x", 45)
+        .attr("x", 55)
         .attr("y", 40)
         .attr("class", "chartTitle")
         .text("" + expressedDisplayText);
@@ -457,13 +457,13 @@
         .text(expressedDisplayText);
   }
 
-  //function to highlight enumeration units and bars
+//function to highlight enumeration units and bars
   function highlight(props, attr) {
     //change stroke
     var selected = d3.selectAll(".id" + props[attr])
         .style("stroke", "#ffe093")
         .style("stroke-width", 3);
-    setLabel(props, attr, 'County');
+    setLabel(props, attr, 'County'); 
   }
 
   function dehighlight(props, primaryKey) {
@@ -492,18 +492,16 @@
   function setLabel(props, primaryKey, locationName) {
     //label content
     var labelAttribute = "<h1>" + props[expressed] +
-        "%</h1><strong>" + expressedDisplayText + "</strong>";
-
+        "%</h1><strong>" + expressedDisplayText + "</strong>"; 
     //create info label div
     var infoLabel = d3.select("body")
         .append("div")
         .attr("class", "infoLabel")
         .attr("id", props[primaryKey] + "_label")
-        .html(labelAttribute);
-
+        .html(labelAttribute); 
     var counties = infoLabel.append("div")
         .attr("class", "labelName")
-        .html(props[locationName] + ' County');
+        .html(props[locationName] + ' County');    
   }
 
   function moveLabel() {
@@ -527,6 +525,43 @@
     d3.select(".infoLabel")
         .style("left", x + "px")
         .style("top", y + "px");
+  }
+
+  function setRadarChart(props) {
+    var radarGraph = d3.selectAll('.infoLabel').append("div")
+    .attr("class", "radarChart");
+    var attrArray = Object.keys(props);
+    attrArray = attrArray.filter(function(item) {
+      var targetItem = true; 
+      if ((item === 'GEO_ID') || (item === 'County') || (item === 'State')) {
+        targetItem = false; 
+      }
+      return targetItem;
+    });
+    
+    var radarGraphData = [];
+    
+    var radarGraphDataObject = attrArray.map(function(key){
+      var newObj = {};
+      newObj.axis = key;
+      newObj.value = Number(props[key]);
+      // if (newObj.axis === expressed) {
+      //   console.log('this is the expressed attribute!', newObj);
+      // }
+      return newObj;
+  });
+    // the radar chart libary requires the data be formatted as an array of objects
+    // nested in another array
+    radarGraphData.push(radarGraphDataObject);
+    console.log(radarGraphData);
+    var radarChartConfig = {
+      w: 300,
+      h: 300,
+      maxValue: 100,
+      levels: 4,
+      ExtraWidthX: 150
+    };
+    RadarChart.draw(".radarChart", radarGraphData, radarChartConfig);
   }
 
 })();

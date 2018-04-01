@@ -1,5 +1,5 @@
 html,
-body {
+body {              
     margin: 0;
     height: 100%;
 }
@@ -148,4 +148,11 @@ input[type=radio] {
     cursor: pointer;
     margin-left: 5px;
     margin-right: 3px;
+}
+
+.radarChart {
+    background-color: white;
+    fill: #193439;
+    opacity: .9;
+    text-align: center;
 }
