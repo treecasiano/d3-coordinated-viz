@@ -554,6 +554,17 @@
         return radius(d.properties[expressed]); });
   }
 
+  var checkBox = document.getElementById("toggle-prop-symbols");
+  checkBox.addEventListener('click', function() {
+    if (this.checked) {
+      d3.selectAll('circle')
+      .attr("display", "inline-block");
+    } else {
+      d3.selectAll('circle')
+      .attr("display", "none");
+    }    
+  });
+  
 })();
 
 
