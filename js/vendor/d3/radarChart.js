@@ -2,7 +2,7 @@
 // https://gist.github.com/alandunning/4c36eb1abdb248de34c64f5672afd857
 
 var RadarChart = {
-    draw: function(id, d, options){
+    draw: function(id, d, options, axisKeyName, expressed){
       var cfg = {
        radius: 5,
        w: 600,
@@ -20,7 +20,7 @@ var RadarChart = {
        ExtraWidthY: 100,
        color: d3.scaleOrdinal().range(["#193439", "#21444b"])
       };
-      
+    
       if('undefined' !== typeof options){
         for(var i in options){
         if('undefined' !== typeof options[i]){
@@ -31,7 +31,7 @@ var RadarChart = {
       
       cfg.maxValue = 100;
       
-      var allAxis = (d[0].map(function(i, j){return i.area;}));
+      var allAxis = (d[0].map(function(i, j){return i[axisKeyName];}));
       var total = allAxis.length;
       var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
       var Format = d3.format('%');

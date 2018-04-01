@@ -469,10 +469,10 @@
   function dehighlight(props, primaryKey) {
     var selected = d3.selectAll(".id" + props[primaryKey])
         .style("stroke", function(){
-          return getStyle(this, "stroke")
+          return getStyle(this, "stroke");
         })
         .style("stroke-width", function(){
-          return getStyle(this, "stroke-width")
+          return getStyle(this, "stroke-width");
         });
 
     d3.select(".infoLabel")
@@ -555,13 +555,13 @@
     radarGraphData.push(radarGraphDataObject);
     console.log(radarGraphData);
     var radarChartConfig = {
-      w: 300,
+      w: 400,
       h: 300,
       maxValue: 100,
       levels: 4,
-      ExtraWidthX: 150
+      ExtraWidthX: 200
     };
-    RadarChart.draw(".radarChart", radarGraphData, radarChartConfig);
+    RadarChart.draw(".radarChart", radarGraphData, radarChartConfig, 'axis', expressed);
   }
 
 })();

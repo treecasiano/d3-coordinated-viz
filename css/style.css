@@ -109,7 +109,7 @@ label:hover {
     min-height: 50px;
     min-width: 100px;
     position: absolute;
-    padding: 15px 10px;
+    padding: 15px;
     top: -75px;
     opacity: .9;
 }
@@ -153,6 +153,4 @@ input[type=radio] {
 .radarChart {
     background-color: white;
     fill: #193439;
-    opacity: .9;
-    text-align: center;
 }
