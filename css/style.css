@@ -157,3 +157,9 @@ input[type=radio] {
     margin-left: 5px;
     margin-right: 3px;
 }
+
+.bubble {
+    fill: goldenrod;
+    fill-opacity: .8;
+    stroke: white;
+}
