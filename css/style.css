@@ -13,7 +13,7 @@ body {
 
 .mainHeader h1 {
     font-size: 32px;
-    line-height: .6;
+    line-height: .8;
 }
 
 .introduction {
@@ -145,14 +145,18 @@ label:hover {
 .selectBox__container {
     display: block;
     height: 50px;
+    margin-left: 25px;
+    margin-bottom: 10px;
     width: 400px;
 }
 
 .radioBtns {
+    float: right;
     margin-left: 25px;
 }
 
-input[type=radio] {
+input[type=radio],
+input[type=checkbox] {
     cursor: pointer;
     margin-left: 5px;
     margin-right: 3px;
