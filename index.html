@@ -22,25 +22,26 @@
                 Poverty, access to grocery stores, and other environmental and demographic factors that correlate with food insecurity are represented in the map below. </p>
             </div>
         </header>
+        <div class="selectBox__container"><span>Select a different attribute:</span></div>
         <form class="radioBtns">
-            <span>Select a different attribute:</span>
-            <div class="selectBox__container"></div>
             <span>Classification method:  &nbsp;</span>
             <input type="radio" id="classificationChoice1"
-                   name="classification" value="quintile" checked>
+                   name="classification" value="quintile">
             <label for="classificationChoice1">Quintile &nbsp;</label>
             <input type="radio" id="classificationChoice2"
                    name="classification" value="equalArea">
             <label for="classificationChoice2">Equal Area &nbsp;</label>
             <input type="radio" id="classificationChoice3"
-                   name="classification" value="naturalBreaks">
+                   name="classification" value="naturalBreaks" checked>
             <label for="classificationChoice3">Natural Breaks &nbsp;</label>
         </form>
         <form class="checkBox">
-            <span>Display data as proportional symbols:</span>
-            <input type="checkbox" id="toggle-prop-symbols"
-                   name="togglePropSymbols" checked>
-            <label for="toggle-prop-symbols"></label>
+            <div>
+                <span>Display data as proportional symbols:</span>
+                <input type="checkbox" id="toggle-prop-symbols"
+                        name="togglePropSymbols" checked>
+                <label for="toggle-prop-symbols"></label>
+            </div>
         <main class="mainContainer">
         </main>
         <div class="footer">
