@@ -148,7 +148,7 @@
 
       //add enumeration units to the map
       setCountyEnumerationUnits(oregonCounties, 'GEO_ID', map, path, colorScale);
-      setPropSymbols(oregonCounties, map, path);
+      setPropSymbols(oregonCounties, 'GEO_ID', map, path);
       //add coordinated visualization to the map
       setChart(csvData, 'GEO_ID', colorScale);
       createDropdown(csvData);
@@ -213,10 +213,10 @@
         }).on("mouseover", function(d) {
           highlight(d.properties, primaryKey);
         })
-        .on("mouseout", function(d){
+        .on("mouseout", function(d) {
           dehighlight(d.properties, primaryKey);
         })
-        .on("mousemove", function(){
+        .on("mousemove", function() {
           moveLabel();
         });
 
@@ -403,8 +403,8 @@
         .data(numericalAttributeObject)
         .enter()
         .append("option")
-        .attr("value", function(d){ return d.attrName })
-        .text(function(d){ return d.attrDisplayText })
+        .attr("value", function(d){ return d.attrName; })
+        .text(function(d){ return d.attrDisplayText; })
         .property("selected", function(d) { return d.attrName === expressed; });
   }
 
@@ -524,7 +524,7 @@
     var labelWidth = d3.select(".infoLabel")
         .node()
         .getBoundingClientRect()
-        .width;
+        .width;    
 
     //use coordinates of mousemove event to set label coordinates
     var x1 = d3.event.clientX + 10,
@@ -542,19 +542,36 @@
         .style("top", y + "px");
   }
 
-  function setPropSymbols(polygonFeatureData, map, path) {    
+  function setPropSymbols(polygonFeatureData, primaryKey, map, path) {    
     map.append("g")
       .attr("class", "bubble")
       .selectAll("circle")
-      .data(polygonFeatureData)
+      .data(polygonFeatureData.sort(function(a, b) { return b.properties[expressed] - a.properties[expressed]; }))
       .enter()
       .append("circle")
+      .attr("class", function (d) {
+        return "countyPropSymbol " + 'id'+ d.properties[primaryKey];
+      })
       .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
       .attr("r", function(d) { 
-        return radius(d.properties[expressed]); });
+        return radius(d.properties[expressed]); 
+      })
+      .on("mouseover", function(d) {
+        highlight(d.properties, primaryKey);
+      })
+      .on("mouseout", function(d) {
+        dehighlight(d.properties, primaryKey);
+      })
+      .on("mousemove", function() {
+        moveLabel();
+      });
+
+    var desc = d3.selectAll("circle").append("desc")
+      .text('{"stroke": "#fff", "stroke-width": "0.5px"}');  
   }
 
   var checkBox = document.getElementById("toggle-prop-symbols");
+
   checkBox.addEventListener('click', function() {
     if (this.checked) {
       d3.selectAll('circle')
