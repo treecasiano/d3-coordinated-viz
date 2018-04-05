@@ -546,7 +546,7 @@
     map.append("g")
       .attr("class", "bubble")
       .selectAll("circle")
-      .data(polygonFeatureData)
+      .data(polygonFeatureData.sort(function(a, b) { return b.properties[expressed] - a.properties[expressed]; }))
       .enter()
       .append("circle")
       .attr("class", function (d) {
