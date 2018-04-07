@@ -19,6 +19,6 @@
     "start-sync": "browser-sync start --server --port 3001 --files=\"./**/**.*\"",
     "start-serve": "browser-sync start --server"
   },
-  "author": "",
+  "author": "Tree Casiano",
   "license": "ISC"
 }
