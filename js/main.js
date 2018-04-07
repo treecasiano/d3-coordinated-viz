@@ -360,7 +360,7 @@
 
     //create a text element for the chart title
     var chartTitle = chart.append("text")
-        .attr("x", 45)
+        .attr("x", 50)
         .attr("y", 40)
         .attr("class", "chartTitle")
         .text("" + expressedDisplayText);
