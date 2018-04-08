@@ -70,8 +70,8 @@
   ];
 
   //initial attribute
-  var expressed = numericalAttributeObject[15].attrName;
-  var expressedDisplayText = numericalAttributeObject[15].attrDisplayText;
+  var expressed = numericalAttributeObject[0].attrName;
+  var expressedDisplayText = numericalAttributeObject[0].attrDisplayText;
 
   var colorClasses = [
       '#cdf0e4',
